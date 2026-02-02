@@ -1,8 +1,8 @@
 # Taskflow
 
-A lightweight task manager that runs entirely in a single HTML file. No server, no dependencies, no build step — just open `taskflow.html` in a browser.
+A lightweight task manager that runs entirely in your browser. No server, no account, no install — your data stays in localStorage on your device.
 
-All data is stored in the browser's localStorage.
+**Try it now:** [klor.github.io/taskflow](https://klor.github.io/taskflow/)
 
 ## Features
 
@@ -35,9 +35,7 @@ When creating a task, use inline syntax: `#tag` to add a tag, `@name` to assign,
 
 ## Getting started
 
-1. Download `taskflow.html`
-2. Open it in a browser
-3. Start adding tasks
+Use it online at [klor.github.io/taskflow](https://klor.github.io/taskflow/) — or download `taskflow.html` and open it locally. Either way, data is stored in your browser's localStorage. Nothing leaves your device.
 
 ## License
 
