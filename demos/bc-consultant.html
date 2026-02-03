@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskflow</title>
+    <title>Taskflow — BC Consultant Demo</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -1483,19 +1483,88 @@
         // Default data (used on first run when nothing is in localStorage)
         const DEFAULTS = {
             users: [
-                { id: 'me', name: 'Me', organization: null }
+                { id: 'me', name: 'Me', organization: 'argon-consulting' },
+                { id: 'karsten-falk', name: 'Karsten Falk', organization: 'argon-consulting' },
+                { id: 'julie-andersen', name: 'Julie Andersen', organization: 'argon-consulting' },
+                { id: 'thomas-brenner', name: 'Thomas Brenner', organization: 'brenner-und-sohne' },
+                { id: 'mike-calloway', name: 'Mike Calloway', organization: 'coastal-marine-supply' },
+                { id: 'diana-hartley', name: 'Diana Hartley', organization: 'hartley-foods' },
+                { id: 'steven-park', name: 'Steven Park', organization: 'peak-office-supplies' },
+                { id: 'linda-vasquez', name: 'Linda Vasquez', organization: 'ridgeline-construction' },
+                { id: 'rob-tanner', name: 'Rob Tanner', organization: 'sunbelt-agriculture' },
+                { id: 'fiona-walsh', name: 'Fiona Walsh', organization: 'waverly-textiles' }
             ],
-            organizations: [],
-            tags: [],
-            nextTaskId: 1
+            organizations: [
+                { id: 'argon-consulting', name: 'Argon Consulting' },
+                { id: 'brenner-und-sohne', name: 'Brenner & Söhne' },
+                { id: 'coastal-marine-supply', name: 'Coastal Marine Supply' },
+                { id: 'hartley-foods', name: 'Hartley Foods' },
+                { id: 'peak-office-supplies', name: 'Peak Office Supplies' },
+                { id: 'ridgeline-construction', name: 'Ridgeline Construction' },
+                { id: 'sunbelt-agriculture', name: 'Sunbelt Agriculture' },
+                { id: 'waverly-textiles', name: 'Waverly Textiles' }
+            ],
+            tags: [
+                { id: 'implementation', name: 'Implementation' },
+                { id: 'go-live', name: 'Go-Live' },
+                { id: 'data-migration', name: 'Data Migration' },
+                { id: 'configuration', name: 'Configuration' },
+                { id: 'training', name: 'Training' },
+                { id: 'support', name: 'Support' },
+                { id: 'upgrade', name: 'Upgrade' },
+                { id: 'financials', name: 'Financials' },
+                { id: 'inventory', name: 'Inventory' },
+                { id: 'reporting', name: 'Reporting' }
+            ],
+            nextTaskId: 23
         };
 
         function getDefaultTasks() {
-            return [];
+            return [
+                // Hartley Foods — active implementation
+                { id: 1, title: 'Hartley Foods — configure item tracking for lot numbers', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['implementation', 'configuration', 'inventory'], recurrence: null },
+                { id: 2, title: 'Hartley Foods — data migration: item master and BOMs', status: 'Open', priority: 1, assignee: { type: 'user', id: 'julie-andersen' }, dueDate: getTodayPlus(5), tags: ['implementation', 'data-migration'], recurrence: null },
+                { id: 3, title: 'Hartley Foods — key user training: sales order processing', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(7), tags: ['implementation', 'training'], recurrence: null },
+                { id: 4, title: 'Hartley Foods — weekly project sync', status: 'Open', priority: null, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['implementation'], recurrence: { interval: 1, period: 'weeks', weekdays: [], endDate: null } },
+
+                // Brenner & Söhne — active implementation
+                { id: 5, title: 'Brenner & Söhne — configure warehouse picks and put-aways', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(5), tags: ['implementation', 'configuration', 'inventory'], recurrence: null },
+                { id: 6, title: 'Brenner & Söhne — chart of accounts mapping and GL setup', status: 'Open', priority: 2, assignee: { type: 'user', id: 'karsten-falk' }, dueDate: getTodayPlus(10), tags: ['implementation', 'configuration', 'financials'], recurrence: null },
+                { id: 7, title: 'Brenner & Söhne — go-live cutover plan', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(14), tags: ['implementation', 'go-live'], recurrence: null },
+                { id: 8, title: 'Brenner & Söhne — weekly project sync', status: 'Open', priority: null, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['implementation'], recurrence: { interval: 1, period: 'weeks', weekdays: [], endDate: null } },
+
+                // Coastal Marine Supply — support + upgrade
+                { id: 9, title: 'Coastal Marine Supply — fix sales invoice posting error', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(1), tags: ['support'], recurrence: null },
+                { id: 10, title: 'Coastal Marine Supply — BC 25 upgrade: test extension compatibility', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(14), tags: ['upgrade'], recurrence: null },
+
+                // Peak Office Supplies — support
+                { id: 11, title: 'Peak Office Supplies — configure approval workflows for purchase orders', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(10), tags: ['configuration', 'support'], recurrence: null },
+                { id: 12, title: 'Peak Office Supplies — monthly support review call', status: 'Open', priority: null, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(8), tags: ['support'], recurrence: { interval: 1, period: 'months', weekdays: [], endDate: null } },
+
+                // Ridgeline Construction — early implementation
+                { id: 13, title: 'Ridgeline Construction — job costing setup and WIP configuration', status: 'Open', priority: 2, assignee: { type: 'user', id: 'karsten-falk' }, dueDate: getTodayPlus(7), tags: ['implementation', 'configuration', 'financials'], recurrence: null },
+                { id: 14, title: 'Ridgeline Construction — waiting on chart of accounts from client', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'linda-vasquez' }, dueDate: getTodayPlus(5), tags: ['implementation', 'data-migration'], recurrence: null },
+
+                // Sunbelt Agriculture — ongoing
+                { id: 15, title: 'Sunbelt Agriculture — inventory valuation report customization', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(10), tags: ['reporting'], recurrence: null },
+                { id: 16, title: 'Sunbelt Agriculture — end-user training: purchase order workflow', status: 'Open', priority: 2, assignee: { type: 'user', id: 'julie-andersen' }, dueDate: getTodayPlus(12), tags: ['training'], recurrence: null },
+
+                // Waverly Textiles — pre-go-live
+                { id: 17, title: 'Waverly Textiles — data migration: customer and vendor master data', status: 'Open', priority: 2, assignee: { type: 'user', id: 'julie-andersen' }, dueDate: getTodayPlus(8), tags: ['implementation', 'data-migration'], recurrence: null },
+                { id: 18, title: 'Waverly Textiles — configure dimensions for cost center tracking', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(10), tags: ['configuration', 'financials'], recurrence: null },
+                { id: 19, title: 'Waverly Textiles — go-live readiness checklist', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(21), tags: ['implementation', 'go-live'], recurrence: null },
+
+                // Internal
+                { id: 20, title: 'Prepare BC 25 upgrade assessment template', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(14), tags: ['upgrade'], recurrence: null },
+
+                // Done
+                { id: 21, title: 'Coastal Marine Supply — fixed dimension code error on sales posting', status: 'Done', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-2), tags: ['support'], recurrence: null },
+                { id: 22, title: 'Peak Office Supplies — bank reconciliation setup', status: 'Done', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-3), tags: ['configuration', 'financials'], recurrence: null }
+            ];
         }
 
         // Persistence
-        const STORAGE_KEY = 'taskflow_state';
+        const STORAGE_KEY = 'taskflow_demo_bc_consultant';
 
         function loadState() {
             try {

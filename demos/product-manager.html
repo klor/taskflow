@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskflow</title>
+    <title>Taskflow — Product Manager Demo</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -1483,19 +1483,64 @@
         // Default data (used on first run when nothing is in localStorage)
         const DEFAULTS = {
             users: [
-                { id: 'me', name: 'Me', organization: null }
+                { id: 'me', name: 'Me', organization: 'factoryos' },
+                { id: 'lena-vogt', name: 'Lena Vogt', organization: 'steelworks-ag' },
+                { id: 'robert-kim', name: 'Robert Kim', organization: 'proline-manufacturing' },
+                { id: 'hans-mueller', name: 'Hans Mueller', organization: 'atlas-machinery' },
+                { id: 'diana-torres', name: 'Diana Torres', organization: 'cascade-packaging' },
+                { id: 'jake-rivera', name: 'Jake Rivera', organization: 'factoryos' },
+                { id: 'sara-lindqvist', name: 'Sara Lindqvist', organization: 'factoryos' },
+                { id: 'tom-baker', name: 'Tom Baker', organization: 'factoryos' }
             ],
-            organizations: [],
-            tags: [],
-            nextTaskId: 1
+            organizations: [
+                { id: 'factoryos', name: 'FactoryOS' },
+                { id: 'steelworks-ag', name: 'Steelworks AG' },
+                { id: 'proline-manufacturing', name: 'ProLine Manufacturing' },
+                { id: 'atlas-machinery', name: 'Atlas Machinery' },
+                { id: 'cascade-packaging', name: 'Cascade Packaging' }
+            ],
+            tags: [
+                { id: 'feature', name: 'Feature' },
+                { id: 'bug', name: 'Bug' },
+                { id: 'roadmap', name: 'Roadmap' },
+                { id: 'feedback', name: 'Feedback' },
+                { id: 'beta', name: 'Beta' },
+                { id: 'analytics', name: 'Analytics' },
+                { id: 'onboarding', name: 'Onboarding' },
+                { id: 'api', name: 'API' },
+                { id: 'release', name: 'Release' },
+                { id: 'ux', name: 'UX' }
+            ],
+            nextTaskId: 21
         };
 
         function getDefaultTasks() {
-            return [];
+            return [
+                { id: 1, title: 'Prioritize Q2 roadmap features', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['roadmap'], recurrence: null },
+                { id: 2, title: 'Write PRD for batch tracking module', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(0), tags: ['feature', 'roadmap'], recurrence: null },
+                { id: 3, title: 'Analyze churn data from last quarter', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['analytics'], recurrence: null },
+                { id: 4, title: 'Review UX mockups for operator dashboard', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(1), tags: ['ux', 'feature'], recurrence: null },
+                { id: 5, title: 'Weekly product sync', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['roadmap'], recurrence: { interval: 1, period: 'weeks', weekdays: [3], endDate: getSixMonthsFromNow() } },
+                { id: 6, title: 'Monthly customer advisory board', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(12), tags: ['feedback'], recurrence: { interval: 1, period: 'months', weekdays: [], endDate: getSixMonthsFromNow() } },
+                { id: 7, title: 'Define acceptance criteria for OEE reporting', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(4), tags: ['feature', 'analytics'], recurrence: null },
+                { id: 8, title: 'Draft release notes for v3.4', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(5), tags: ['release'], recurrence: null },
+                { id: 9, title: 'API rate limiting implementation', status: 'Open', priority: 1, assignee: { type: 'user', id: 'jake-rivera' }, dueDate: getTodayPlus(3), tags: ['api', 'feature'], recurrence: null },
+                { id: 10, title: 'Onboarding flow redesign wireframes', status: 'Open', priority: 2, assignee: { type: 'user', id: 'sara-lindqvist' }, dueDate: getTodayPlus(4), tags: ['ux', 'onboarding'], recurrence: null },
+                { id: 11, title: 'Cascade Packaging onboarding kickoff', status: 'Open', priority: 2, assignee: { type: 'user', id: 'tom-baker' }, dueDate: getTodayPlus(5), tags: ['onboarding'], recurrence: null },
+                { id: 12, title: 'Steelworks AG feature request review', status: 'Waiting', priority: 1, assignee: { type: 'user', id: 'lena-vogt' }, dueDate: getTodayPlus(2), tags: ['feedback', 'feature'], recurrence: null },
+                { id: 13, title: 'ProLine beta feedback on shift scheduling', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'robert-kim' }, dueDate: getTodayPlus(3), tags: ['beta', 'feedback'], recurrence: null },
+                { id: 14, title: 'Atlas Machinery API integration specs', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'hans-mueller' }, dueDate: getTodayPlus(4), tags: ['api'], recurrence: null },
+                { id: 15, title: 'Performance benchmarks for analytics module', status: 'Open', priority: 1, assignee: { type: 'user', id: 'jake-rivera' }, dueDate: getTodayPlus(3), tags: ['analytics', 'bug'], recurrence: null },
+                { id: 16, title: 'v3.3 release shipped', status: 'Done', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-3), tags: ['release'], recurrence: null },
+                { id: 17, title: 'Steelworks AG quarterly business review', status: 'Done', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-5), tags: ['feedback'], recurrence: null },
+                { id: 18, title: 'ProLine Manufacturing onboarding completed', status: 'Done', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-10), tags: ['onboarding'], recurrence: null },
+                { id: 19, title: 'Plan beta program for predictive maintenance', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(8), tags: ['beta', 'roadmap'], recurrence: null },
+                { id: 20, title: 'Competitive analysis update', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(7), tags: ['roadmap'], recurrence: null }
+            ];
         }
 
         // Persistence
-        const STORAGE_KEY = 'taskflow_state';
+        const STORAGE_KEY = 'taskflow_demo_product';
 
         function loadState() {
             try {

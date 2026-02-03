@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskflow</title>
+    <title>Taskflow — Sales Manager Demo</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -1483,19 +1483,71 @@
         // Default data (used on first run when nothing is in localStorage)
         const DEFAULTS = {
             users: [
-                { id: 'me', name: 'Me', organization: null }
+                { id: 'me', name: 'Me', organization: 'velocity-io' },
+                { id: 'karen-bishop', name: 'Karen Bishop', organization: 'velocity-io' },
+                { id: 'ryan-cole', name: 'Ryan Cole', organization: 'velocity-io' },
+                { id: 'thomas-weber', name: 'Thomas Weber', organization: 'hartmann-group' },
+                { id: 'claire-dupont', name: 'Claire Dupont', organization: 'nova-logistics' },
+                { id: 'james-oconnor', name: 'James O\'Connor', organization: 'bridgeport-manufacturing' },
+                { id: 'satoshi-tanaka', name: 'Satoshi Tanaka', organization: 'kyoto-precision' },
+                { id: 'linda-marsh', name: 'Linda Marsh', organization: 'greatplains-foods' },
+                { id: 'peter-lundgren', name: 'Peter Lundgren', organization: 'scandinavian-steel' },
+                { id: 'maria-santos', name: 'Maria Santos', organization: 'vanguard-aero' }
             ],
-            organizations: [],
-            tags: [],
-            nextTaskId: 1
+            organizations: [
+                { id: 'velocity-io', name: 'Velocity.io' },
+                { id: 'hartmann-group', name: 'Hartmann Group' },
+                { id: 'nova-logistics', name: 'Nova Logistics' },
+                { id: 'bridgeport-manufacturing', name: 'Bridgeport Manufacturing' },
+                { id: 'kyoto-precision', name: 'Kyoto Precision' },
+                { id: 'greatplains-foods', name: 'GreatPlains Foods' },
+                { id: 'scandinavian-steel', name: 'Scandinavian Steel' },
+                { id: 'vanguard-aero', name: 'Vanguard Aero' }
+            ],
+            tags: [
+                { id: 'prospect', name: 'Prospect' },
+                { id: 'proposal', name: 'Proposal' },
+                { id: 'negotiation', name: 'Negotiation' },
+                { id: 'closing', name: 'Closing' },
+                { id: 'renewal', name: 'Renewal' },
+                { id: 'upsell', name: 'Upsell' },
+                { id: 'demo', name: 'Demo' },
+                { id: 'follow-up', name: 'Follow-up' },
+                { id: 'contract', name: 'Contract' },
+                { id: 'onboarding', name: 'Onboarding' }
+            ],
+            nextTaskId: 23
         };
 
         function getDefaultTasks() {
-            return [];
+            return [
+                { id: 1, title: 'Send revised proposal to Hartmann Group', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(0), tags: ['proposal', 'negotiation'], recurrence: null },
+                { id: 2, title: 'Prepare custom demo environment for Kyoto Precision', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(1), tags: ['demo', 'prospect'], recurrence: null },
+                { id: 3, title: 'Follow up on Bridgeport Manufacturing pilot feedback', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(0), tags: ['follow-up', 'closing'], recurrence: null },
+                { id: 4, title: 'Draft pricing tiers for GreatPlains Foods enterprise deal', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['proposal'], recurrence: null },
+                { id: 5, title: 'Weekly pipeline review', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getNextMonday(), tags: ['follow-up'], recurrence: { interval: 1, period: 'weeks', weekdays: [1], endDate: getSixMonthsFromNow() } },
+                { id: 6, title: 'Quarterly business review with Scandinavian Steel', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(5), tags: ['renewal', 'upsell'], recurrence: null },
+                { id: 7, title: 'Prepare ROI case study from Nova Logistics deployment', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(4), tags: ['follow-up'], recurrence: null },
+                { id: 8, title: 'Schedule executive intro for Vanguard Aero', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['prospect'], recurrence: null },
+                { id: 9, title: 'Renewal contract review for Nova Logistics', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(6), tags: ['renewal', 'contract'], recurrence: null },
+                { id: 10, title: 'Upsell analytics module to Scandinavian Steel', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(7), tags: ['upsell'], recurrence: null },
+                { id: 11, title: 'Coordinate onboarding kickoff for Bridgeport', status: 'Open', priority: 1, assignee: { type: 'user', id: 'karen-bishop' }, dueDate: getTodayPlus(3), tags: ['onboarding'], recurrence: null },
+                { id: 12, title: 'Build competitive comparison deck for Kyoto pitch', status: 'Open', priority: 2, assignee: { type: 'user', id: 'ryan-cole' }, dueDate: getTodayPlus(2), tags: ['demo', 'prospect'], recurrence: null },
+                { id: 13, title: 'Legal review of Hartmann Group contract terms', status: 'Waiting', priority: 1, assignee: { type: 'organization', id: 'velocity-io' }, dueDate: getTodayPlus(2), tags: ['contract', 'negotiation'], recurrence: null },
+                { id: 14, title: 'Confirm budget approval for enterprise tier', status: 'Waiting', priority: 1, assignee: { type: 'user', id: 'thomas-weber' }, dueDate: getTodayPlus(3), tags: ['closing', 'negotiation'], recurrence: null },
+                { id: 15, title: 'Technical requirements document from Kyoto IT', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'satoshi-tanaka' }, dueDate: getTodayPlus(4), tags: ['prospect', 'demo'], recurrence: null },
+                { id: 16, title: 'Sign pilot agreement', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'linda-marsh' }, dueDate: getTodayPlus(5), tags: ['contract', 'prospect'], recurrence: null },
+                { id: 17, title: 'Provide reference contact for Vanguard Aero', status: 'Waiting', priority: 3, assignee: { type: 'user', id: 'peter-lundgren' }, dueDate: getTodayPlus(4), tags: ['prospect', 'follow-up'], recurrence: null },
+                { id: 18, title: 'Closed Bridgeport Manufacturing — 3-year deal signed', status: 'Done', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-2), tags: ['closing', 'contract'], recurrence: null },
+                { id: 19, title: 'Nova Logistics renewal proposal sent', status: 'Done', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-4), tags: ['renewal', 'proposal'], recurrence: null },
+                { id: 20, title: 'Demo for GreatPlains Foods procurement team', status: 'Done', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-6), tags: ['demo'], recurrence: null },
+                { id: 21, title: 'Discovery call with Vanguard Aero completed', status: 'Done', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-8), tags: ['prospect'], recurrence: null },
+                { id: 22, title: 'Send Hartmann Group case studies from similar manufacturers', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(1), tags: ['follow-up', 'negotiation'], recurrence: null }
+            ];
         }
 
         // Persistence
-        const STORAGE_KEY = 'taskflow_state';
+        const STORAGE_KEY = 'taskflow_demo_sales';
 
         function loadState() {
             try {

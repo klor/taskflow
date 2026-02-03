@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskflow</title>
+    <title>Taskflow — BC Solution Architect Demo</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -1483,19 +1483,71 @@
         // Default data (used on first run when nothing is in localStorage)
         const DEFAULTS = {
             users: [
-                { id: 'me', name: 'Me', organization: null }
+                { id: 'me', name: 'Me', organization: 'axcelor-consulting' },
+                { id: 'anders-holm', name: 'Anders Holm', organization: 'axcelor-consulting' },
+                { id: 'nadia-kovic', name: 'Nadia Kovic', organization: 'axcelor-consulting' },
+                { id: 'simon-blake', name: 'Simon Blake', organization: 'axcelor-consulting' },
+                { id: 'heinrich-brauer', name: 'Heinrich Brauer', organization: 'rheinwerk-gmbh' },
+                { id: 'anna-lindqvist', name: 'Anna Lindqvist', organization: 'nordstrom-plastics' },
+                { id: 'mark-sullivan', name: 'Mark Sullivan', organization: 'sullivan-metalworks' },
+                { id: 'elena-rossi', name: 'Elena Rossi', organization: 'alpina-components' },
+                { id: 'frank-de-vries', name: 'Frank de Vries', organization: 'benelux-packaging' },
+                { id: 'kenji-watanabe', name: 'Kenji Watanabe', organization: 'tokiwa-precision' }
             ],
-            organizations: [],
-            tags: [],
-            nextTaskId: 1
+            organizations: [
+                { id: 'axcelor-consulting', name: 'Axcelor Consulting' },
+                { id: 'rheinwerk-gmbh', name: 'Rheinwerk GmbH' },
+                { id: 'nordstrom-plastics', name: 'Nordström Plastics' },
+                { id: 'sullivan-metalworks', name: 'Sullivan Metalworks' },
+                { id: 'alpina-components', name: 'Alpina Components' },
+                { id: 'benelux-packaging', name: 'Benelux Packaging' },
+                { id: 'tokiwa-precision', name: 'Tokiwa Precision' }
+            ],
+            tags: [
+                { id: 'fit-gap', name: 'Fit/Gap' },
+                { id: 'configuration', name: 'Configuration' },
+                { id: 'customization', name: 'Customization' },
+                { id: 'data-migration', name: 'Data Migration' },
+                { id: 'uat', name: 'UAT' },
+                { id: 'go-live', name: 'Go-Live' },
+                { id: 'manufacturing', name: 'Manufacturing' },
+                { id: 'warehouse', name: 'Warehouse' },
+                { id: 'finance', name: 'Finance' },
+                { id: 'integration', name: 'Integration' },
+                { id: 'support', name: 'Support' }
+            ],
+            nextTaskId: 23
         };
 
         function getDefaultTasks() {
-            return [];
+            return [
+                { id: 1, title: 'Finalize production BOM configuration for Rheinwerk', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(0), tags: ['configuration', 'manufacturing'], recurrence: null },
+                { id: 2, title: 'Design routing and work center setup for Sullivan Metalworks', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(1), tags: ['fit-gap', 'manufacturing'], recurrence: null },
+                { id: 3, title: 'Review warehouse bin policy extension for Benelux Packaging', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['customization', 'warehouse'], recurrence: null },
+                { id: 4, title: 'Map chart of accounts for Alpina Components migration', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['data-migration', 'finance'], recurrence: null },
+                { id: 5, title: 'Write functional spec for Tokiwa shop floor integration', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(4), tags: ['integration', 'manufacturing'], recurrence: null },
+                { id: 6, title: 'Weekly project sync — Rheinwerk', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['manufacturing'], recurrence: { interval: 1, period: 'weeks', weekdays: [2], endDate: getSixMonthsFromNow() } },
+                { id: 7, title: 'Weekly project sync — Sullivan Metalworks', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['manufacturing'], recurrence: { interval: 1, period: 'weeks', weekdays: [3], endDate: getSixMonthsFromNow() } },
+                { id: 8, title: 'Prepare UAT test scripts for Nordström Plastics', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(5), tags: ['uat'], recurrence: null },
+                { id: 9, title: 'Define go-live cutover plan for Nordström Plastics', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(6), tags: ['go-live'], recurrence: null },
+                { id: 10, title: 'Resolve posted inventory costing issue at Alpina', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(1), tags: ['support', 'finance'], recurrence: null },
+                { id: 11, title: 'Build AL extension for Rheinwerk quality inspection', status: 'Open', priority: 1, assignee: { type: 'user', id: 'anders-holm' }, dueDate: getTodayPlus(3), tags: ['customization', 'manufacturing'], recurrence: null },
+                { id: 12, title: 'Configure warehouse picks and put-aways for Benelux', status: 'Open', priority: 2, assignee: { type: 'user', id: 'nadia-kovic' }, dueDate: getTodayPlus(4), tags: ['configuration', 'warehouse'], recurrence: null },
+                { id: 13, title: 'Migrate open purchase orders for Sullivan Metalworks', status: 'Open', priority: 2, assignee: { type: 'user', id: 'simon-blake' }, dueDate: getTodayPlus(5), tags: ['data-migration'], recurrence: null },
+                { id: 14, title: 'Approve production BOM mapping document', status: 'Waiting', priority: 1, assignee: { type: 'user', id: 'heinrich-brauer' }, dueDate: getTodayPlus(2), tags: ['fit-gap', 'manufacturing'], recurrence: null },
+                { id: 15, title: 'Complete UAT test execution and sign-off', status: 'Waiting', priority: 1, assignee: { type: 'user', id: 'anna-lindqvist' }, dueDate: getTodayPlus(3), tags: ['uat', 'go-live'], recurrence: null },
+                { id: 16, title: 'Provide legacy item master data export', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'mark-sullivan' }, dueDate: getTodayPlus(4), tags: ['data-migration'], recurrence: null },
+                { id: 17, title: 'Confirm MES API endpoint specifications', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'kenji-watanabe' }, dueDate: getTodayPlus(5), tags: ['integration', 'manufacturing'], recurrence: null },
+                { id: 18, title: 'Review posted G/L entries after costing fix', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'elena-rossi' }, dueDate: getTodayPlus(3), tags: ['support', 'finance'], recurrence: null },
+                { id: 19, title: 'Nordström Plastics fit/gap analysis completed', status: 'Done', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-3), tags: ['fit-gap'], recurrence: null },
+                { id: 20, title: 'Alpina Components go-live — finance and inventory', status: 'Done', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-7), tags: ['go-live', 'finance'], recurrence: null },
+                { id: 21, title: 'Benelux Packaging discovery workshops completed', status: 'Done', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-5), tags: ['fit-gap', 'warehouse'], recurrence: null },
+                { id: 22, title: 'Tokiwa Precision scoping and SOW signed', status: 'Done', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-10), tags: ['fit-gap', 'integration'], recurrence: null }
+            ];
         }
 
         // Persistence
-        const STORAGE_KEY = 'taskflow_state';
+        const STORAGE_KEY = 'taskflow_demo_bc_architect';
 
         function loadState() {
             try {

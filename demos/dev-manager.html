@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskflow</title>
+    <title>Taskflow — Development Manager Demo</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -1483,19 +1483,96 @@
         // Default data (used on first run when nothing is in localStorage)
         const DEFAULTS = {
             users: [
-                { id: 'me', name: 'Me', organization: null }
+                { id: 'me', name: 'Me', organization: 'buildwise' },
+                { id: 'emma-chen', name: 'Emma Chen', organization: 'buildwise' },
+                { id: 'marcus-williams', name: 'Marcus Williams', organization: 'buildwise' },
+                { id: 'priya-sharma', name: 'Priya Sharma', organization: 'buildwise' },
+                { id: 'alex-novak', name: 'Alex Novak', organization: 'buildwise' },
+                { id: 'sofia-rodriguez', name: 'Sofia Rodriguez', organization: 'buildwise' },
+                { id: 'liam-brennan', name: 'Liam Brennan', organization: 'buildwise' },
+                { id: 'yuki-tanaka', name: 'Yuki Tanaka', organization: 'buildwise' },
+                { id: 'david-kim', name: 'David Kim', organization: 'buildwise' },
+                { id: 'lisa-andersson', name: 'Lisa Andersson', organization: 'buildwise' },
+                { id: 'omar-hassan', name: 'Omar Hassan', organization: 'buildwise' },
+                { id: 'rachel-foster', name: 'Rachel Foster', organization: 'buildwise' },
+                { id: 'tom-eriksen', name: 'Tom Eriksen', organization: 'buildwise' },
+                { id: 'nina-petrova', name: 'Nina Petrova', organization: 'buildwise' },
+                { id: 'carlos-mendez', name: 'Carlos Mendez', organization: 'buildwise' },
+                { id: 'sarah-mitchell', name: 'Sarah Mitchell', organization: 'buildwise' },
+                { id: 'raj-patel', name: 'Raj Patel', organization: 'buildwise' },
+                { id: 'ben-larsson', name: 'Ben Larsson', organization: 'buildwise' },
+                { id: 'mia-thompson', name: 'Mia Thompson', organization: 'buildwise' }
             ],
-            organizations: [],
-            tags: [],
-            nextTaskId: 1
+            organizations: [
+                { id: 'buildwise', name: 'Buildwise' },
+                { id: 'meridian-logistics', name: 'Meridian Logistics' },
+                { id: 'apex-manufacturing', name: 'Apex Manufacturing' },
+                { id: 'northstar-retail', name: 'NorthStar Retail' },
+                { id: 'pinnacle-health', name: 'Pinnacle Health' }
+            ],
+            tags: [
+                { id: 'release', name: 'Release' },
+                { id: 'qa-testing', name: 'QA/Testing' },
+                { id: '1-1', name: '1:1' },
+                { id: 'sprint', name: 'Sprint' },
+                { id: 'code-review', name: 'Code Review' },
+                { id: 'hiring', name: 'Hiring' },
+                { id: 'client-project', name: 'Client Project' },
+                { id: 'tech-debt', name: 'Tech Debt' },
+                { id: 'incident', name: 'Incident' },
+                { id: 'devops', name: 'DevOps' }
+            ],
+            nextTaskId: 25
         };
 
         function getDefaultTasks() {
-            return [];
+            return [
+                // Release — v3.4 cycle
+                { id: 1, title: 'Prepare v3.4 release candidate — merge feature branches and tag', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['release'], recurrence: null },
+                { id: 2, title: 'Review QA sign-off report for v3.4', status: 'Open', priority: 1, assignee: { type: 'user', id: 'nina-petrova' }, dueDate: getTodayPlus(5), tags: ['release', 'qa-testing'], recurrence: null },
+                { id: 3, title: 'Write v3.4 release notes and changelog', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(6), tags: ['release'], recurrence: null },
+                { id: 4, title: 'Coordinate v3.4 production deployment with DevOps', status: 'Open', priority: 1, assignee: { type: 'user', id: 'raj-patel' }, dueDate: getTodayPlus(7), tags: ['release', 'devops'], recurrence: null },
+
+                // QA/Testing
+                { id: 5, title: 'Regression test results — payment module', status: 'Waiting', priority: 1, assignee: { type: 'user', id: 'lisa-andersson' }, dueDate: getTodayPlus(4), tags: ['qa-testing'], recurrence: null },
+                { id: 6, title: 'E2E test coverage for Nexus API v2 endpoints', status: 'Open', priority: 2, assignee: { type: 'user', id: 'tom-eriksen' }, dueDate: getTodayPlus(10), tags: ['qa-testing'], recurrence: null },
+
+                // 1:1s — recurring with team leads
+                { id: 7, title: '1:1 Emma Chen (Platform Lead)', status: 'Open', priority: null, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(1), tags: ['1-1'], recurrence: { interval: 1, period: 'weeks', weekdays: [], endDate: null } },
+                { id: 8, title: '1:1 Priya Sharma (Client Solutions Lead)', status: 'Open', priority: null, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['1-1'], recurrence: { interval: 1, period: 'weeks', weekdays: [], endDate: null } },
+                { id: 9, title: '1:1 Nina Petrova (QA Lead)', status: 'Open', priority: null, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['1-1'], recurrence: { interval: 1, period: 'weeks', weekdays: [], endDate: null } },
+                { id: 10, title: '1:1 Raj Patel — CI/CD migration timeline', status: 'Open', priority: null, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(4), tags: ['1-1', 'devops'], recurrence: { interval: 2, period: 'weeks', weekdays: [], endDate: null } },
+                { id: 11, title: 'Performance review prep — all direct reports', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(14), tags: ['1-1'], recurrence: null },
+
+                // Sprint ceremonies
+                { id: 12, title: 'Sprint planning — Platform team', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getNextMonday(), tags: ['sprint'], recurrence: { interval: 2, period: 'weeks', weekdays: [], endDate: null } },
+                { id: 13, title: 'Sprint retrospective — all teams', status: 'Open', priority: null, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(5), tags: ['sprint'], recurrence: { interval: 2, period: 'weeks', weekdays: [], endDate: null } },
+
+                // Client projects
+                { id: 14, title: 'Meridian Logistics — review data sync integration PR', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['client-project', 'code-review'], recurrence: null },
+                { id: 15, title: 'Apex Manufacturing — custom reporting module', status: 'Open', priority: 2, assignee: { type: 'user', id: 'priya-sharma' }, dueDate: getTodayPlus(14), tags: ['client-project'], recurrence: null },
+                { id: 16, title: 'NorthStar Retail — API onboarding integration', status: 'Open', priority: 2, assignee: { type: 'user', id: 'alex-novak' }, dueDate: getTodayPlus(21), tags: ['client-project'], recurrence: null },
+                { id: 17, title: 'Pinnacle Health — waiting on API integration spec from client', status: 'Waiting', priority: 2, assignee: { type: 'organization', id: 'pinnacle-health' }, dueDate: getTodayPlus(7), tags: ['client-project'], recurrence: null },
+
+                // Hiring
+                { id: 18, title: 'Interview candidate — senior backend engineer role', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['hiring'], recurrence: null },
+                { id: 19, title: 'Finalize job description for mid-level frontend role', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(7), tags: ['hiring'], recurrence: null },
+
+                // Tech debt & DevOps
+                { id: 20, title: 'Auth service tech debt — session handling refactor', status: 'Open', priority: 2, assignee: { type: 'user', id: 'marcus-williams' }, dueDate: getTodayPlus(10), tags: ['tech-debt'], recurrence: null },
+                { id: 21, title: 'Upgrade CI/CD pipeline — parallel build support', status: 'Open', priority: 3, assignee: { type: 'user', id: 'sarah-mitchell' }, dueDate: getTodayPlus(14), tags: ['devops'], recurrence: null },
+                { id: 22, title: 'Production monitoring dashboard — alerting thresholds', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'raj-patel' }, dueDate: getTodayPlus(7), tags: ['devops'], recurrence: null },
+
+                // Incident
+                { id: 23, title: 'Post-mortem write-up — Jan 31 API gateway outage', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['incident'], recurrence: null },
+
+                // Done
+                { id: 24, title: 'Merge v3.3.1 hotfix to production', status: 'Done', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-1), tags: ['release'], recurrence: null }
+            ];
         }
 
         // Persistence
-        const STORAGE_KEY = 'taskflow_state';
+        const STORAGE_KEY = 'taskflow_demo_dev_manager';
 
         function loadState() {
             try {

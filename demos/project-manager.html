@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskflow</title>
+    <title>Taskflow — Project Manager Demo</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -1483,19 +1483,62 @@
         // Default data (used on first run when nothing is in localStorage)
         const DEFAULTS = {
             users: [
-                { id: 'me', name: 'Me', organization: null }
+                { id: 'me', name: 'Me', organization: 'stellar-digital' },
+                { id: 'alex-turner', name: 'Alex Turner', organization: 'techventures' },
+                { id: 'priya-sharma', name: 'Priya Sharma', organization: 'globalretail' },
+                { id: 'ben-okoro', name: 'Ben Okoro', organization: 'cityconnect' },
+                { id: 'yuki-tanaka', name: 'Yuki Tanaka', organization: 'finedge' },
+                { id: 'mia-larsen', name: 'Mia Larsen', organization: 'stellar-digital' },
+                { id: 'chris-donovan', name: 'Chris Donovan', organization: 'stellar-digital' }
             ],
-            organizations: [],
-            tags: [],
-            nextTaskId: 1
+            organizations: [
+                { id: 'stellar-digital', name: 'Stellar Digital' },
+                { id: 'techventures', name: 'TechVentures Inc' },
+                { id: 'globalretail', name: 'GlobalRetail' },
+                { id: 'cityconnect', name: 'CityConnect' },
+                { id: 'finedge', name: 'FinEdge' }
+            ],
+            tags: [
+                { id: 'sprint', name: 'Sprint' },
+                { id: 'milestone', name: 'Milestone' },
+                { id: 'risk', name: 'Risk' },
+                { id: 'blocker', name: 'Blocker' },
+                { id: 'qa', name: 'QA' },
+                { id: 'deployment', name: 'Deployment' },
+                { id: 'budget', name: 'Budget' },
+                { id: 'uat', name: 'UAT' },
+                { id: 'planning', name: 'Planning' }
+            ],
+            nextTaskId: 21
         };
 
         function getDefaultTasks() {
-            return [];
+            return [
+                { id: 1, title: 'Finalize sprint scope for TechVentures v2.1', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(0), tags: ['sprint', 'planning'], recurrence: null },
+                { id: 2, title: 'Review QA report for GlobalRetail checkout module', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(1), tags: ['qa'], recurrence: null },
+                { id: 3, title: 'Prepare milestone presentation for CityConnect Phase 2', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(3), tags: ['milestone'], recurrence: null },
+                { id: 4, title: 'Risk assessment for FinEdge payment gateway', status: 'Open', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(2), tags: ['risk'], recurrence: null },
+                { id: 5, title: 'Weekly sprint review — TechVentures', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(4), tags: ['sprint'], recurrence: { interval: 1, period: 'weeks', weekdays: [5], endDate: getSixMonthsFromNow() } },
+                { id: 6, title: 'Bi-weekly steering committee — GlobalRetail', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getNextMonday(), tags: ['milestone'], recurrence: { interval: 2, period: 'weeks', weekdays: [1], endDate: getSixMonthsFromNow() } },
+                { id: 7, title: 'Update project budget tracker for Q1', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(5), tags: ['budget'], recurrence: null },
+                { id: 8, title: 'Draft change request for CityConnect sensor expansion', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(4), tags: ['planning'], recurrence: null },
+                { id: 9, title: 'UI designs for TechVentures dashboard', status: 'Open', priority: 2, assignee: { type: 'user', id: 'mia-larsen' }, dueDate: getTodayPlus(3), tags: ['sprint'], recurrence: null },
+                { id: 10, title: 'API endpoint development for FinEdge', status: 'Open', priority: 1, assignee: { type: 'user', id: 'chris-donovan' }, dueDate: getTodayPlus(2), tags: ['sprint', 'blocker'], recurrence: null },
+                { id: 11, title: 'UAT sign-off from GlobalRetail', status: 'Waiting', priority: 1, assignee: { type: 'user', id: 'priya-sharma' }, dueDate: getTodayPlus(1), tags: ['uat'], recurrence: null },
+                { id: 12, title: 'Infrastructure cost estimate from CityConnect', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'ben-okoro' }, dueDate: getTodayPlus(4), tags: ['budget'], recurrence: null },
+                { id: 13, title: 'Security audit results from FinEdge', status: 'Waiting', priority: 1, assignee: { type: 'user', id: 'yuki-tanaka' }, dueDate: getTodayPlus(3), tags: ['risk', 'blocker'], recurrence: null },
+                { id: 14, title: 'Final design review for TechVentures', status: 'Waiting', priority: 2, assignee: { type: 'user', id: 'alex-turner' }, dueDate: getTodayPlus(5), tags: ['milestone'], recurrence: null },
+                { id: 15, title: 'GlobalRetail product catalog API deployed', status: 'Done', priority: 1, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-3), tags: ['deployment'], recurrence: null },
+                { id: 16, title: 'CityConnect Phase 1 retrospective completed', status: 'Done', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-5), tags: ['milestone'], recurrence: null },
+                { id: 17, title: 'FinEdge project kickoff', status: 'Done', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(-7), tags: ['planning'], recurrence: null },
+                { id: 18, title: 'Plan TechVentures load testing', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(6), tags: ['qa', 'deployment'], recurrence: null },
+                { id: 19, title: 'Create onboarding doc for new team member', status: 'Open', priority: 3, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(7), tags: ['planning'], recurrence: null },
+                { id: 20, title: 'Schedule CityConnect stakeholder demo', status: 'Open', priority: 2, assignee: { type: 'user', id: 'me' }, dueDate: getTodayPlus(5), tags: ['milestone'], recurrence: null }
+            ];
         }
 
         // Persistence
-        const STORAGE_KEY = 'taskflow_state';
+        const STORAGE_KEY = 'taskflow_demo_pm';
 
         function loadState() {
             try {
